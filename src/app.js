@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
+import { Provider } from "react-redux";
 
-import CounterProvider from './state/context/counter/counter-context.js'
-import NameProvider from './state/context/people/people-context.js'
-import Counter from './components/counter.js';
-import Person from './components/person.js';
+import Counter from "./components/counter.js";
+import Person from "./components/person.js";
+
+import createStore from "./store/index.js";
+const store = createStore();
 
 function App() {
-  return (
-    <CounterProvider>
-      <NameProvider>
-        <Person />
-      <Counter />
-    </NameProvider>
-    </CounterProvider>
-  );
+	return (
+		<Provider store={store}>
+			<Person />
+			<Counter />
+		</Provider>
+	);
 }
 
 export default App;

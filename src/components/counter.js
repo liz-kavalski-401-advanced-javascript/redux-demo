@@ -1,19 +1,27 @@
-import React, {useContext} from 'react';
+import React from 'react';
 
-import {CounterContext} from '../state/context/counter/counter-context.js';
+import {connect} from 'react-redux';
 
-function Counter(props) {
+import * as actions from '../store/counter.store.js'
 
-  const context = useContext(CounterContext);
-
+function Counter(prop){
   return (
     <>
-      <button onClick={context.decrement}>-</button>
-      <span>{context.count}</span>
-      <button onClick={context.increment}>+</button>
+      <button onClick={prop.dec}>-</button>
+      <span>{prop.counter.count}</span>
+      <button onClick={prop.inc}>+</button>
     </>
   );
-
 }
+  
+const mapStatetoProps = (state)=>({
+  counter:state.counter
+})
 
-export default Counter;
+const mapDispatchtoProps = (dispatch, getState)=>({
+  inc:()=>dispatch(actions.increment()),
+  dec:()=>dispatch(actions.decrement())
+  
+})
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(Counter);

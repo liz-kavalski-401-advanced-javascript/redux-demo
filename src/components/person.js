@@ -1,22 +1,32 @@
-import React, {useContext} from 'react';
+import React from "react";
+import { connect } from "react-redux";
 
-import {NameContext} from '../state/context/people/people-context.js';
+import * as actions from "../store/person.store.js";
 
 function Person(props) {
-
-  const context = useContext(NameContext);
-
-  return (
-    <header>
-      <h1>{context.name}</h1>
-      <button onClick={context.uppercase}>Upper</button>
-      <button onClick={context.lowercase}>Lower</button>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <input onChange={(e) => context.set(e.target.value)} />
-      </form>
-    </header>
-  );
-
+	return (
+		<header>
+			<h1>{props.person.name}</h1>
+			<button onClick={props.upper}>Upper</button>
+			<button onClick={props.lower}>Lower</button>
+			<form onSubmit={e => e.preventDefault()}>
+				<input onChange={e => props.set(e.target.value)} />
+			</form>
+		</header>
+	);
 }
 
-export default Person;
+const mapStateToProps = state => ({
+	person: state.person
+});
+
+const mapDispatchToProps = (dispatch, getState) => ({
+	set: newName => dispatch(actions.set(newName)),
+	upper: () => dispatch(actions.uppercase()),
+	lower: () => dispatch(actions.lowercase())
+});
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Person);
